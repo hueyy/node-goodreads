@@ -1,36 +1,43 @@
-Goodreads - Use NodeJS to tap into the Goodreads API
------
+<h1 align="center">
+  node-goodreads
+</h1>
 
-This is a dead simple wrapper for the Goodreads API when using NodeJS. I've only exposed a few GR API functions so far but would be happy to entertain adding more if there's demand.
+A Node.JS Wrapper for the Goodreads API
+
+Forked from [bdickason/node-goodreads](https://github.com/bdickason/node-goodreads), which appears to be unmaintained.
 
 * Goodreads API: http://goodreads.com/api
-* Github: https://github.com/bdickason/node-goodreads
-* Twitter: [@bdickason](http://twitter.com/bdickason)
-* E-mail: dickason@gmail.com
+* Github: https://github.com/hueyy/node-goodreads
 
-Installation
-======
-1. Install npm: `curl http://npmjs.org/install.sh | sh`
-2. Grab this module from npm: `npm install goodreads`
-3. Include it in your program:
- * Coffeescript: `goodreads = require 'goodreads'`
- * Javascript: `goodreads = require('goodreads');`
-4. create a new instance of the Goodreads client:
- * Coffeescript: `gr = new goodreads.client { 'key': key, 'secret': secret }`
- * Javascript: `gr = new goodreads.client({ 'key': key, 'secret': secret });`
-5. Go get a goodreads developer key/secret from http://www.goodreads.com/api/keys
-6. _(optional)_ Add your key/secret to your environment variables so Nodejs can access them
- * Key: `export GOODREADS_KEY=yourkey`
- * Secret: `export GOODREADS_SECRET=yoursecret`
-7. Try it out! Maybe do a `node examples/booklist.js` to get an idea how things work
+# Installation
 
-Functions
-=====
-**showUser** - get user info with userName
-* input - valid userName
-* output - json (as callback)
-* Example: `getShelves 'your_username', (json) ->`
-* You must have created a username. You can do so [here](https://www.goodreads.com/user/edit).
+```bash
+npm i node-goodreads
+```
+
+# Using it
+
+Grab a Goodreads developer key and secret from [https://www.goodreads.com/api/keys](https://www.goodreads.com/api/keys).
+
+```js
+const goodreads = require(`node-goodreads`)
+const gr = new goodreads.client({ key, secret })
+```
+
+# Examples
+
+Examples are available in the examples folder
+
+```js
+gr.getShelves(`username`).then(json => console.log(json))
+
+// or
+const json = await gr.getShelves(`username`)
+console.log(json)
+
+```
+
+# Functions
 
 **getShelves** - Get all shelves for a given user
 * Input: userId
@@ -62,27 +69,3 @@ _Note: call this after requestToken!_
 * Input: seriesId
 * Output: json (as callback)
 * Example: `getSeries '40650', (json) ->`
-
-_More to come!_
-
-
-Help, I need an adult!
-======
-First step: Check out the `/examples` folder. It's decently documented.
-
-If you're still having issues, you can submit them here: https://github.com/bdickason/node-goodreads/issues
-
-
-Changelog
-======
-**v0.0.5** - Removed OAuth workarounds
-* {`showUser`} method added - can get user information given their username.
-
-**v0.0.2** - Removed OAuth workarounds
-* OAuth Callback (`processCallback`) now properly returns an Access Token (`accessToken`) and Access Token Secret (`accessTokenSecret`)
-
-**v0.0.1** - First release! Woohoo!!
-* Added support getting a list of a user's shelves (`getShelves`)
-* Added support for getting all books on a single shelf (`getSingleShelf`)
-* Added support for an OAuth round trip via `requestToken` and `processCallback`
-* Started this ugly manual
