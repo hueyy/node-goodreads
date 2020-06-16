@@ -66,7 +66,14 @@ const main = async () => {
     if (oauthToken && oauthSecret) {
       gr.configureOauth(oauthToken, oauthSecret)
     }
-    const result = await gr.reviewsList(`28445`)
+
+    const { username } = await inquirer.prompt([{
+      type: `input`,
+      name: `username`,
+      message: `Goodreads username`,
+      default: `52535740` // Blake Crouch
+    }])
+    const result = await gr.reviewsList(username)
     console.log(JSON.stringify(result))
   }
   main()

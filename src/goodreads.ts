@@ -1,7 +1,7 @@
-import axios, { AxiosRequestConfig } from 'axios'
+import axios from 'axios'
 import OAuth from 'oauth'
 import xml2js from 'xml2js'
-import qs from 'query-string'
+import * as qs from 'query-string'
 
 interface authoriseResult {
   oauthToken: string,
@@ -72,7 +72,6 @@ class Goodreads {
     return new Promise((resolve, reject) => {
       oauth.getOAuthRequestToken((error, oauthToken, oauthSecret) => {
         if (error) {
-          console.error(error)
           reject(error)
         } else {
           const params = {
@@ -103,6 +102,7 @@ class Goodreads {
         this.oauthSecret,
         async (error, data) => {
           if (error) {
+            console.error(error)
             reject(error)
           } else {
             resolve(await xml2js.parseStringPromise(data))
@@ -112,11 +112,11 @@ class Goodreads {
     })
   }
 
-  reviewsList = async (username, shelf = `currently-reading`, sort = `title`, search?, order?, page?) => {
+  reviewsList = async (username, shelfName = `currently-reading`, sort = `title`, search?, order?, page?) => {
     const params = {
       v: 2,
       id: username,
-      shelf,
+      shelf: shelfName,
       sort,
       search,
       order,
@@ -125,13 +125,20 @@ class Goodreads {
     }
     const path = `/review/list?${qs.stringify(params)}`
 
+    let data
     if (this.oauthToken && this.oauthSecret) {
-      const data = await this.oauthRequest(path)
-      return data
+      data = await this.oauthRequest(path)
     } else {
-      const { data } = await this.req.get(path)
-      return data.GoodreadsResponse.reviews
+      data = (await this.req.get(path)).data
     }
+
+    const {
+      GoodreadsResponse: {
+        shelf: [shelf],
+        reviews: [reviews],
+      }
+    } = data
+    return { shelf, reviews }
   }
 }
 
