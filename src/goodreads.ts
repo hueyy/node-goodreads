@@ -102,7 +102,6 @@ class Goodreads {
         this.oauthSecret,
         async (error, data) => {
           if (error) {
-            console.error(error)
             reject(error)
           } else {
             resolve(await xml2js.parseStringPromise(data))
