@@ -1,7 +1,7 @@
 {
   "name": "node-goodreads",
   "description": "Wrapper for the Goodreads API",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "author": "Huey <leejinhuey@gmail.com>",
   "scripts": {
     "build": "babel -x .ts . --out-dir dist --ignore node_modules,dist",
