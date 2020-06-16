@@ -101,7 +101,7 @@ class Goodreads {
         `${this.endpoint}${path}`,
         this.oauthToken,
         this.oauthSecret,
-        async (error, data, response) => {
+        async (error, data) => {
           if (error) {
             reject(error)
           } else {

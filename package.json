@@ -1,11 +1,11 @@
 {
   "name": "node-goodreads",
   "description": "Wrapper for the Goodreads API",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "author": "Huey <leejinhuey@gmail.com>",
   "scripts": {
-    "build": "babel . --out-dir dist --ignore node_modules,dist",
-    "prepublish": "npm run build",
+    "build": "babel -x .ts . --out-dir dist --ignore node_modules,dist",
+    "prepare": "npm run build",
     "start": "node node_modules/.bin/babel-node -x .ts examples/example"
   },
   "repository": {
@@ -24,18 +24,20 @@
     "xml2js": ">= 0.1.9"
   },
   "devDependencies": {
+    "@babel/cli": "^7.10.1",
     "@babel/core": "^7.10.2",
     "@babel/node": "^7.10.1",
     "@babel/plugin-proposal-class-properties": "^7.10.1",
     "@babel/preset-env": "^7.10.2",
     "@babel/preset-typescript": "^7.10.1",
     "babel-preset-env": "",
+    "eslint": "^7.2.0",
     "inquirer": "^7.2.0",
     "tsc": "^1.20150623.0",
     "typescript-eslint-parser": "^22.0.0"
   },
   "directories": {
-    "lib": "dist/lib/goodreads",
+    "src": "dist/src",
     "example": "dist/examples"
   },
   "main": "dist/index.js",
